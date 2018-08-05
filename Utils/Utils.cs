@@ -30,7 +30,7 @@ namespace B2Emulator
 
                 if (headerValue.Length == 0)
                 {
-                    errorList.Add($"\"{headerName}\" header must be at least one character long.");
+                    errorList.Add(String.Format("{0} header must be at least one character long.", headerName));
                     return null;
                 }
                 else

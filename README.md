@@ -14,7 +14,6 @@ An ASP.NET Core Web API project.
 
 * Any OS supporting the .NET Core SDK is supported.
 * The .NET SDK must be installed.
-* Heroku CLI must be installed.
 
 ## Build
 

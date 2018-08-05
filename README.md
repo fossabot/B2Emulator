@@ -4,7 +4,7 @@ This is an emulator for the Backblaze B2 Cloud Storage service. The goal of the 
 
 ## Currently implemented endpoints
 
-* b2_upload_file
+* b2_upload_file (except "fileInfo")
 
 ## Architecture
 

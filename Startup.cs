@@ -48,12 +48,14 @@ namespace B2Emulator
             else
             {
                 app.UseHsts();
+                app.UseHttpsRedirection();
             }
-
-            // app.UseHttpsRedirection();
-            app.UseMvc();
-
+            
             app.UseCors("AllowAllOrigins");
+
+            app.UseMvc();            
+
+            app.UseStaticFiles();
         }
     }
 }

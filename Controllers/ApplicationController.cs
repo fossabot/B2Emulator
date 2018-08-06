@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using B2Emulator.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.FileProviders;
 
 namespace B2Emulator.Controllers
 {
@@ -13,7 +14,13 @@ namespace B2Emulator.Controllers
     [ApiController]
     public class ApplicationController : ControllerBase
     {
-        // GET api/values
+        private readonly IFileProvider _fs;
+
+        public ApplicationController(IFileProvider fs)
+        {
+            _fs = fs;
+        }
+
         [HttpPost("b2_upload_file")]
         public async Task<ActionResult<B2UploadCompleteDetails>> UploadFile()
         {
@@ -53,6 +60,24 @@ namespace B2Emulator.Controllers
                     ContentSha1 = xBzContentSha1,
                     ContentType = contentType,
                 });
+            }
+        }
+
+        [HttpGet("b2_download_file_by_id")]
+        public ActionResult<object> DownloadFileById([FromQuery] string fileId)
+        {
+            try
+            {
+                var fileInfo = _fs.GetFileInfo("dog.jpg");
+
+                using (var fileStream = fileInfo.CreateReadStream())
+                {
+                    return Ok(fileStream);
+                }
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
             }
         }
     }

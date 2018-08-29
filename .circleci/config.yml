@@ -5,12 +5,17 @@ jobs:
       - image: microsoft/dotnet:2.2-sdk
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - nuget-{{ checksum "src/B2Emulator/B2Emulator.csproj" }}-{{ checksum "test/B2Emulator.Tests/B2Emulator.Tests.csproj" }}
+            - nuget
       - run:
-          name: restore solution
-          command: dotnet restore
-      - run:
-          name: build solution
+          name: restore and build solution
           command: dotnet build
+      - save_cache:
+          key: nuget-{{ checksum "src/B2Emulator/B2Emulator.csproj" }}-{{ checksum "test/B2Emulator.Tests/B2Emulator.Tests.csproj" }}
+          paths:
+            - ~/.nuget/packages
       - run:
           name: run test project
           command: cd test/B2Emulator.Tests && dotnet test

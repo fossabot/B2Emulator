@@ -1,0 +1,16 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: dotnet:2.2-sdk
+    steps:
+      - checkout
+      - run:
+          name: restore solution
+          command: dotnet restore
+      - run:
+          name: build solution
+          command: dotnet build
+      - run:
+          name: run test project
+          command: cd test/B2Emulator.Tests && dotnet test

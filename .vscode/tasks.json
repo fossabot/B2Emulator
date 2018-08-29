@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/B2Emulator.csproj"
+                "${workspaceFolder}/src/B2Emulator/B2Emulator.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

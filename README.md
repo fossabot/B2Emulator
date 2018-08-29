@@ -1,5 +1,9 @@
 # B2Emulator
 
+| Branch | Test result |
+|--------|-------------|
+| Master | [![CircleCI](https://circleci.com/gh/welkie/B2Emulator.svg?style=svg)](https://circleci.com/gh/welkie/B2Emulator) |
+
 An emulator for the Backblaze B2 Cloud Storage service. The goal of the project is to mimic the B2 API to provide a tool that can be used to test applications built to use B2.
 
 **Note:** This project is currently in a pre-alpha state. There is little coverage of the B2 API and no test coverage.

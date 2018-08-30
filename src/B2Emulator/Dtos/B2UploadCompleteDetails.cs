@@ -12,7 +12,7 @@ namespace B2Emulator.Dtos
 
         public string BucketId { get; set; }
 
-        public int ContentLength { get; set; }
+        public long ContentLength { get; set; }
 
         public string ContentSha1 { get; set; }
 

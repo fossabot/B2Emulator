@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using B2Emulator.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -41,6 +42,20 @@ namespace B2Emulator
                     builder.AllowAnyHeader();
                 });
             });
+
+            var provider = Environment.GetEnvironmentVariable("PROVIDER");
+
+            switch (provider)
+            {
+                case "MEMORY":
+                    services.AddSingleton<IFileStorageProvider, InMemoryFileStorageProvider>();
+                    break;
+                default:
+                    services.AddSingleton<IFileStorageProvider>(sp => null);
+                    break;
+            }
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,10 +70,10 @@ namespace B2Emulator
                 app.UseHsts();
                 app.UseHttpsRedirection();
             }
-            
+
             app.UseCors("AllowAllOrigins");
 
-            app.UseMvc();            
+            app.UseMvc();
 
             app.UseStaticFiles();
         }

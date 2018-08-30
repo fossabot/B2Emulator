@@ -17,7 +17,8 @@
             "internalConsoleOptions": "openOnSessionStart",
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
-                "ASPNETCORE_URLS": "http://0.0.0.0:6000"
+                "ASPNETCORE_URLS": "http://0.0.0.0:5000",
+                "PROVIDER": "MEMORY"
             },
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/Views"
@@ -28,6 +29,6 @@
             "type": "coreclr",
             "request": "attach",
             "processId": "${command:pickProcess}"
-        },
+        }
     ]
 }

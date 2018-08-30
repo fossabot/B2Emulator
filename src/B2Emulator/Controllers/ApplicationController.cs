@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using B2Emulator.Dtos;
+using B2Emulator.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
@@ -14,11 +15,11 @@ namespace B2Emulator.Controllers
     [ApiController]
     public class ApplicationController : ControllerBase
     {
-        private readonly IFileProvider _fs;
+        private readonly IFileStorageProvider _fileStorageProvider;
 
-        public ApplicationController(IFileProvider fs)
+        public ApplicationController(IFileStorageProvider fileStorageProvider)
         {
-            _fs = fs;
+            _fileStorageProvider = fileStorageProvider;
         }
 
         [HttpPost("b2_upload_file")]
@@ -39,46 +40,46 @@ namespace B2Emulator.Controllers
                 return BadRequest(errors);
             }
 
-            using (var reader = new StreamReader(Request.Body))
+            // Store the file
+
+            var fileId = Guid.NewGuid().ToString();
+
+            var fileStoreSuccess = await _fileStorageProvider.StoreFileAsync(new Dtos.File
             {
-                var body = await reader.ReadToEndAsync();
+                Id = fileId,
+                Data = Request.Body,
+                Metadata = null,
+            });
 
-                if (body.Length == 0)
-                {
-                    errors.Add("Uploaded file must be at least one byte.");
-                    return BadRequest(errors);
-                }
-
-                // Success. Emulate B2-generated values.
-                return Ok(new B2UploadCompleteDetails
-                {
-                    FileId = Guid.NewGuid().ToString(),
-                    FileName = xBzFileName,
-                    AccountId = Environment.GetEnvironmentVariable("B2_CLOUD_STORAGE_ACCOUNT_ID"),
-                    BucketId = Environment.GetEnvironmentVariable("B2_CLOUD_STORAGE_BUCKET_ID"),
-                    ContentLength = body.Length,
-                    ContentSha1 = xBzContentSha1,
-                    ContentType = contentType,
-                });
+            if (!fileStoreSuccess)
+            {
+                return BadRequest();
             }
+
+            // Success. Emulate B2-generated values.
+            return Ok(new B2UploadCompleteDetails
+            {
+                FileId = fileId,
+                FileName = xBzFileName,
+                AccountId = Environment.GetEnvironmentVariable("B2_CLOUD_STORAGE_ACCOUNT_ID"),
+                BucketId = Environment.GetEnvironmentVariable("B2_CLOUD_STORAGE_BUCKET_ID"),
+                ContentLength = 123,
+                ContentSha1 = xBzContentSha1,
+                ContentType = contentType,
+            });
         }
 
         [HttpGet("b2_download_file_by_id")]
-        public ActionResult<object> DownloadFileById([FromQuery] string fileId)
+        public async Task<ActionResult<Stream>> DownloadFileById([FromQuery] string fileId)
         {
-            try
-            {
-                var fileInfo = _fs.GetFileInfo("dog.jpg");
+            var retrievedFile = await _fileStorageProvider.RetrieveFileAsync(fileId);
 
-                using (var fileStream = fileInfo.CreateReadStream())
-                {
-                    return Ok(fileStream);
-                }
-            }
-            catch (Exception ex)
+            if (retrievedFile == null)
             {
-                return NotFound(ex.Message);
+                return NotFound();
             }
+
+            return Ok(retrievedFile.Data);
         }
     }
 }

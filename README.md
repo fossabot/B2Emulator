@@ -10,15 +10,14 @@ An emulator for the Backblaze B2 Cloud Storage service. The goal of the project 
 
 ## Current **partially** implemented endpoints
 
-* b2_upload_file ("fileInfo" ignored, error codes don't match B2 API)
+* b2_upload_file - "fileInfo" ignored, error codes don't match B2 API
+* b2_download_file_by_id - "fileInfo" ignored, error codes don't match B2 API
 
-## Current **completely** implemented endpoints
+## Choosing a file storage provider
 
-* All except b2_upload_file
+Set the `PROVIDER` environment variable to choose which provider is loaded at runtime. Options are:
 
-## Architecture
-
-An ASP.NET Core Web API project.
+* MEMORY - An in memory provider. Stores the files in a concurrent dictionary data structure in memory until the process exits. **Warning: Files will not be persisted once process exits**
 
 ## Dev Machine Prerequisites
 
@@ -27,17 +26,19 @@ An ASP.NET Core Web API project.
 
 ## Build
 
-1. Ensure dependencies are downloaded with `dotnet restore`.
-1. Run `dotnet build`.
+1. Run `dotnet build` from the project/solution directory.
 
 ## Test
 
-TBD
+1. Run `dotnet test` from the `test/B2Emulator.Tests` subdirectory.
 
 ## Run in development
 
-1. From the project directory, run `dotnet run` with the following environment variables set:
-* `ASPNETCORE_ENVIRONMENT`: Development
-* `ASPNETCORE_URLS`: http://0.0.0.0:DESIRED_PORT
-* `B2_CLOUD_STORAGE_ACCOUNT_ID`
-* `B2_CLOUD_STORAGE_BUCKET_ID`
+From the `src/B2Emulator` subdirectory, run `dotnet run` with the following environment variables set:
+
+* `ASPNETCORE_ENVIRONMENT` - Development
+* `ASPNETCORE_URLS` - http://0.0.0.0:DESIRED_PORT
+* `B2_CLOUD_STORAGE_ACCOUNT_ID` - ACCOUNT_ID
+* `B2_CLOUD_STORAGE_BUCKET_ID` - BUCKET_ID
+
+Note that the B2 credentials are used to fake authorization endpoints and bucket behavior. They are not transmitted.

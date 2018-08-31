@@ -6,7 +6,7 @@
 
 An emulator for the Backblaze B2 Cloud Storage service. The goal of the project is to mimic the B2 API to provide a tool that can be used to test applications built to use B2.
 
-**Note:** This project is currently in an early state. Thee is little coverage of the B2 API.
+**Note:** This project is currently in an early state. There is little coverage of the B2 API.
 
 ## Current **partially** implemented endpoints
 
@@ -31,7 +31,6 @@ Set the `PROVIDER` environment variable to choose which provider is loaded at ru
 
 ## Dev Machine Prerequisites
 
-* Any OS supporting the .NET Core SDK is supported.
 * The .NET SDK must be installed.
 
 ## Build

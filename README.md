@@ -6,12 +6,22 @@
 
 An emulator for the Backblaze B2 Cloud Storage service. The goal of the project is to mimic the B2 API to provide a tool that can be used to test applications built to use B2.
 
-**Note:** This project is currently in a pre-alpha state. There is little coverage of the B2 API and no test coverage.
+**Note:** This project is currently in an early state. Thee is little coverage of the B2 API.
 
 ## Current **partially** implemented endpoints
 
 * b2_upload_file - "fileInfo" ignored, error codes don't match B2 API
 * b2_download_file_by_id - "fileInfo" ignored, error codes don't match B2 API
+
+## Running with Docker
+
+The latest version is published at the [mwelke/b2-emulator](https://hub.docker.com/r/mwelke/b2-emulator/) Docker repository.
+
+To run the image locally:
+
+```yaml
+docker run --name my-b2-emulator -p 5000:5000 mwelke/b2-emulator:latest
+```
 
 ## Choosing a file storage provider
 

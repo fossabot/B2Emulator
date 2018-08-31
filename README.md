@@ -2,7 +2,8 @@
 
 | Branch | Test result |
 |--------|-------------|
-| Master | [![CircleCI](https://circleci.com/gh/welkie/B2Emulator.svg?style=svg)](https://circleci.com/gh/welkie/B2Emulator) |
+| Master | [![CircleCI](https://circleci.com/gh/welkie/B2Emulator.svg?style=svg)](https://circleci.com/gh/welkie/B2Emulator) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fwelkie%2FB2Emulator.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fwelkie%2FB2Emulator?ref=badge_shield)
+|
 
 An emulator for the Backblaze B2 Cloud Storage service. The goal of the project is to mimic the B2 API to provide a tool that can be used to test applications built to use B2.
 
@@ -51,3 +52,7 @@ From the `src/B2Emulator` subdirectory, run `dotnet run` with the following envi
 * `B2_CLOUD_STORAGE_BUCKET_ID` - BUCKET_ID
 
 Note that the B2 credentials are used to fake authorization endpoints and bucket behavior. They are not transmitted.
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fwelkie%2FB2Emulator.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fwelkie%2FB2Emulator?ref=badge_large)
